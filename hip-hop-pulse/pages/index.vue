@@ -11,7 +11,9 @@
         class="rounded-lg overflow-hidden"
         indicators
       >
-        <img :src="item" class="carousel-image w-full m-2" draggable="false"> <!-- Added margin -->
+        <div class="carousel-item">
+          <img :src="item" class="carousel-image w-full" draggable="false"> <!-- Removed rounded corners -->
+        </div>
       </UCarousel>
     </div>
   </div>
@@ -68,11 +70,21 @@ onMounted(() => {
   margin-bottom: 2rem; /* Add margin below the carousel */
 }
 
+.carousel-item {
+  overflow: hidden; /* Ensure the image corners are clipped */
+}
+
 .carousel-image {
   object-fit: cover; /* Ensure images cover the carousel area */
-  width: calc(100% - 16px); /* Adjust width to account for margin */
-  height: calc(100% - 16px); /* Adjust height to account for margin */
-  margin: 8px; /* Add margin around images */
+  width: 100%; /* Ensure images take full width of the carousel */
+  height: 100%; /* Ensure images take full height of the carousel */
+  transition: border-radius 0.3s ease; /* Smooth transition for border-radius */
+}
+
+/* Remove rounded corners during transition */
+.carousel-item:active .carousel-image,
+.carousel-item:focus .carousel-image {
+  border-radius: 0 !important;
 }
 
 /* Add pulse animation */
@@ -80,8 +92,17 @@ onMounted(() => {
   0% {
     transform: scale(1);
   }
-  50% {
+  10% {
+    transform: scale(1.15);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
     transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
   }
   100% {
     transform: scale(1);
